@@ -8,4 +8,7 @@ class OysterCard
     raise "Cannot exceed £#{MAXIMUM_BALANCE} balance" if @balance + money > MAXIMUM_BALANCE
     @balance += money
   end
+  def deduct(money)
+    @balance -= money
+  end
 end

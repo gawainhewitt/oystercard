@@ -19,5 +19,12 @@ describe OysterCard do
     subject.top_up(32)
     expect(subject.deduct(2)).to eq 30
   end
+
+  it 'can touch in' do
+    expect(subject).to respond_to(:touch_in)
+  end
   
+  it 'can touch out' do
+    expect(subject).to respond_to(:touch_out)
+  end
 end

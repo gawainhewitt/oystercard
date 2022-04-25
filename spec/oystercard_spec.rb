@@ -11,9 +11,8 @@ describe OysterCard do
     expect(subject.balance).to eq (47)
   end
 
-  it 'cannot be topped up above £90' do
-    too_much_money = 91
-    expect { subject.top_up(too_much_money) }.to raise_error 'Cannot exceed £90 balance'
+  it 'cannot be topped up above maximum balance' do
+    expect { subject.top_up(OysterCard::MAXIMUM_BALANCE + 1) }.to raise_error 'Cannot exceed £90 balance'
   end 
   
 end

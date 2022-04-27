@@ -1,24 +1,26 @@
 require 'oystercard'
 
 describe OysterCard do
-  it 'can display initial balance of 0' do
+  it 'should have a default balance of 0' do
     expect(subject.balance).to eq 0
   end
 
-  it 'can be topped up' do
-    subject.top_up(35)
-    subject.top_up(12)
-    expect(subject.balance).to eq 47
+  describe '#top_up' do
+    it 'should top up by money' do
+      expect { subject.top_up(35) }.to change(subject, :balance).by(35)    
+    end
+
+    it 'cannot be topped up above maximum balance' do
+      max_balance = OysterCard::MAXIMUM_BALANCE
+      expect { subject.top_up(max_balance + 1) }.to raise_error "Cannot exceed £#{max_balance} balance"
+    end 
+
   end
 
-  it 'cannot be topped up above maximum balance' do
-    expect { subject.top_up(OysterCard::MAXIMUM_BALANCE + 1) }.to raise_error 'Cannot exceed £90 balance'
-  end 
-
-  it 'can deduct money' do
-    subject.top_up(32)
-    expect(subject.deduct(2)).to eq 30
-  end
+    it 'can deduct money' do
+      subject.top_up(32)
+      expect(subject.deduct(2)).to eq 30
+    end
 
   it 'can touch in' do
     expect(subject).to respond_to(:touch_in)

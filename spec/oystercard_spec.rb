@@ -16,7 +16,6 @@ describe OysterCard do
       subject.top_up(max_balance)
       expect { subject.top_up(1) }.to raise_error "Cannot exceed £#{max_balance} balance"
     end 
-
   end
 
   describe '#deduct' do
@@ -26,16 +25,9 @@ describe OysterCard do
     end
   end
 
-  it 'can touch in' do
-    expect(subject).to respond_to(:touch_in)
-  end
-  
-  it 'can touch out' do
-    expect(subject).to respond_to(:touch_out)
-  end
+  it { should respond_to(:touch_out) }
 
   it 'knows when it is on a journey' do
-    subject.touch_in
-    expect(subject.in_journey?).to eq true
+    expect { subject.touch_in }.to change(subject, :in_journey?).to true
   end
 end

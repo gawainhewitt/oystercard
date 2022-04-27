@@ -7,7 +7,6 @@ class OysterCard
     @balance = 0
     @in_use = false
     @fare = MIN_FARE
-    @travelled_from = :test_start_station
   end 
 
   def top_up(money)
@@ -19,9 +18,10 @@ class OysterCard
     @in_use
   end 
   
-  def touch_in
+  def touch_in(start_station)
     raise 'Balance insufficient' if balance_insufficient?
     @in_use = true
+    set(start_station)
   end
 
   def touch_out
@@ -30,6 +30,10 @@ class OysterCard
   end
 
   private
+  
+  def set(start_station)
+    @travelled_from = start_station
+  end
 
   def max_balance_exceeded?(money)
     balance + money > MAX_BALANCE

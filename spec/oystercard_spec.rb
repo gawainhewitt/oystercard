@@ -7,12 +7,6 @@ describe OysterCard do
     expect(subject.balance).to eq 0
   end
 
-  context 'when the balance is below the minimum fare' do
-    it 'should not allow the user to touch in' do
-      expect { subject.touch_in }.to raise_error "Balance insufficient"
-    end
-  end
-
   describe '#top_up' do
     it 'should top up by money' do
       expect { subject.top_up(max_balance) }.to change(subject, :balance).by(max_balance)    
@@ -24,24 +18,31 @@ describe OysterCard do
     end 
   end
 
-  describe '#deduct' do
-    it 'should deduct fare from balance' do
-      subject.top_up(max_balance)
-      expect { subject.deduct(2) }.to change(subject, :balance).by(-2)
+  describe '#touch_in' do
+    context 'when the balance is below the minimum fare' do
+      it 'should not allow the user to touch in' do
+        expect { subject.touch_in }.to raise_error "Balance insufficient"
+      end
     end
   end
 
-  it { should respond_to(:touch_out) }
+  describe '#touch_out' do
+    it 'deducts correct amount from card at end of journey' do
+      subject.top_up(5)
+      subject.touch_in
+      expect { subject.touch_out }.to change(subject, :balance).by(-OysterCard::MIN_FARE)
+    end
+  end
 
   it 'knows when it is on a journey' do
     subject.top_up(max_balance)
     expect { subject.touch_in }.to change(subject, :in_journey?).to true
   end
 
-  it 'deducts correect amount from card at end of journey' do
-    subject.top_up(5)
+  it 'should return the station travelled from' do
+    subject.top_up(max_balance)
     subject.touch_in
-    expect { subject.touch_out }.to change(subject, :balance).by(OysterCard::MIN_FARE)
-
+    expect(subject.travelled_from).to be(subject.journey_start)
   end
+
 end

@@ -9,7 +9,7 @@ describe OysterCard do
 
   context 'when the balance is below the minimum fare' do
     it 'should not allow the user to touch in' do
-      expect { subject.touch_in }.to raise_error "Balance below minimum fare"
+      expect { subject.touch_in }.to raise_error "Balance insufficient"
     end
   end
 
@@ -36,5 +36,12 @@ describe OysterCard do
   it 'knows when it is on a journey' do
     subject.top_up(max_balance)
     expect { subject.touch_in }.to change(subject, :in_journey?).to true
+  end
+
+  it 'deducts correect amount from card at end of journey' do
+    subject.top_up(5)
+    subject.touch_in
+    expect { subject.touch_out }.to change(subject, :balance).by(OysterCard::MIN_FARE)
+
   end
 end

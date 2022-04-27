@@ -22,7 +22,7 @@ class OysterCard
   end 
   
   def touch_in
-    raise 'Balance below minimum fare' if balance_insufficient?
+    raise 'Balance insufficient' if balance_insufficient?
     @in_use = true
   end
 

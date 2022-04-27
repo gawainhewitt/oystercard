@@ -1,5 +1,5 @@
 class OysterCard
-  attr_reader :balance, :fare
+  attr_reader :balance, :fare, :travelled_from
   MAX_BALANCE = 90
   MIN_FARE = 1
 
@@ -7,6 +7,7 @@ class OysterCard
     @balance = 0
     @in_use = false
     @fare = MIN_FARE
+    @travelled_from = :test_start_station
   end 
 
   def top_up(money)

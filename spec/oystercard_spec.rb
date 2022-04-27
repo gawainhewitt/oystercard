@@ -42,7 +42,7 @@ describe OysterCard do
   it 'should return the station travelled from' do
     subject.top_up(max_balance)
     subject.touch_in
-    expect(subject.travelled_from).to be(subject.journey_start)
+    expect(subject.travelled_from).to be(:test_start_station)
   end
 
 end

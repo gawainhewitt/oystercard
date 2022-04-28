@@ -42,6 +42,8 @@ describe OysterCard do
 
   describe '#test_start_station' do
     before(:example) { subject.top_up(max_balance) }
+    let(:test_start_station) {double :station}
+    let(:test_end_station) {double :station}
     
     it 'knows when it is on a journey' do
       expect { subject.touch_in(:test_start_station) }.to change(subject, :in_journey?).to true

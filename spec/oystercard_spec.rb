@@ -30,7 +30,7 @@ describe OysterCard do
     it 'deducts correct amount from card at end of journey' do
       subject.top_up(5)
       subject.touch_in(:test_start_station)
-      expect { subject.touch_out }.to change(subject, :balance).by(-OysterCard::MIN_FARE)
+      expect { subject.touch_out(:test_end_station)}.to change(subject, :balance).by(-OysterCard::MIN_FARE)
     end
   end
 
@@ -42,6 +42,12 @@ describe OysterCard do
   it 'should return the station travelled from' do
     subject.top_up(max_balance)
     expect { subject.touch_in(:test_start_station) }.to change(subject, :travelled_from).from(nil).to(:test_start_station)
+  end
+
+  it 'can see all previous trips' do
+    subject.top_up(max_balance)
+    subject.touch_in(:test_start_station)
+    expect { subject.touch_out(:test_end_station) }.to change(subject, :journey_history).from([]).to([{start_station: :test_start_station, end_station: :test_end_station}])
   end
 
 end

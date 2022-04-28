@@ -18,7 +18,7 @@ class OysterCard
   def in_journey?
     @in_use
   end 
-  
+
   def touch_in(start_station)
     raise 'Balance insufficient' if balance_insufficient?
     @in_use = true

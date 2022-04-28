@@ -1,5 +1,5 @@
 class OysterCard
-  attr_reader :balance, :fare, :travelled_from, :journey_history
+  attr_reader :balance, :journey_history
   MAX_BALANCE = 90
   MIN_FARE = 1
 
@@ -32,6 +32,8 @@ class OysterCard
   end
 
   private
+
+  attr_reader :fare, :travelled_from
   
   def start_journey(station)
     @travelled_from = station

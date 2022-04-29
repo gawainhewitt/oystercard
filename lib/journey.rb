@@ -1,20 +1,23 @@
 class Journey
-  attr_reader :history, :travelled_from
+  attr_reader :history, :travelled_from, :journey
   
   def initialize
     @history = []
+    @journey = {}
     @in_use = false
   end
 
   def start(station)
-    @travelled_from = station
+    # @travelled_from = station
+    @journey[:start_station] = "#{station}".to_sym
     @in_use = true
   end
-
+  
   def end(station)
-    @travelled_to = station
+    # @travelled_to = station
+    @journey[:end_station] = "#{station}".to_sym
     @in_use = false
-    @history << {start_station: "#{@travelled_from}".to_sym, end_station: "#{station}".to_sym}
+    @history << @journey
   end
 
   def in_journey?

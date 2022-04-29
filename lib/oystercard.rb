@@ -25,9 +25,11 @@ class OysterCard
     @journey.end(end_station)
   end
 
-  private
+  def fare
+    penalty_fare ? @fare = PENALTY_FARE : @fare = MIN_FARE
+  end
 
-  attr_reader :fare
+  private
 
   def max_balance_exceeded?(money)
     balance + money > MAX_BALANCE
@@ -41,4 +43,7 @@ class OysterCard
     @balance -= fare
   end
   
+  def penalty_fare
+    @journey.journey.length < 2
+  end
 end

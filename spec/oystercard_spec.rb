@@ -33,17 +33,19 @@ describe OysterCard do
     end
 
     it 'deducts correct amount from card at end of journey' do
-      expect { subject.touch_out(:test_end_station)}.to change(subject, :balance).by(-OysterCard::MIN_FARE)
+      expect { subject.touch_out(:test_end_station)}.to change(subject, :balance).by(-subject.fare)
     end
   end
 
   describe '#test_start_station' do
     before(:example) { subject.top_up(max_balance) }
     let(:test_end_station) {double :station}
+  end
 
-    it 'should return the station travelled from' do
-      expect { subject.touch_in(:test_start_station) }.to change(subject.journey, :travelled_from).from(nil).to(:test_start_station)
-    end
+  it 'should return the penalty fare if journey is incomplete' do
+    subject.top_up(max_balance)
+    subject.touch_in(:test_start_station)
+    expect(subject.fare).to eq(OysterCard::PENALTY_FARE)
   end
 
 end

@@ -22,10 +22,3 @@ class Journey
   end
 
 end
-
-
-# def start_journey(station)
-#   @travelled_from = station
-# end
-
-# :travelled_from
